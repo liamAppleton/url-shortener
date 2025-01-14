@@ -2,33 +2,29 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
+const randomKeyGenerator = require("../helper-functions/helpers");
+
+const urlSignature = "shortylinks.io/"; // figure out how to return a new link, add checking logic to see if link is already in db
 
 const Urls = mongoose.model(
   "Urls",
   mongoose.Schema({
-    title: String,
+    link: { type: String, required: true },
+    key: String,
   })
 );
 
-const films = [
-  { id: 1, title: "film1" },
-  { id: 2, title: "film2" },
-  { id: 3, title: "film3" },
-];
-
 router.get("/:id", async (req, res) => {
-  const film = await Urls.findById(req.params.id);
+  const url = await Urls.findById(req.params.id);
 
-  if (!film)
-    return res.status(404).send(`Film with ID:${req.params.id} not found.`);
-  res.send({ ...film, director: "director" });
+  res.send(url);
 });
 
 router.post("/", async (req, res) => {
-  let film = new Urls({ title: req.body.title });
-  film = await film.save();
+  let url = new Urls({ link: req.body.link });
+  url = await url.save();
 
-  res.send(film);
+  res.send(url);
 });
 
 module.exports = router;
