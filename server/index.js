@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/", router);
+app.use("/api", router);
 
 const port = process.env.PORT || 3000;
 
@@ -21,17 +21,10 @@ const connectMongoose = async () => {
     );
     console.log("Mongoose called...");
 
-    app.listen(3000, () => console.log("Listening on port 3000..."));
+    app.listen(port, () => console.log(`Listening on port ${port}...`));
   } catch (error) {
     console.log("Failed to connect" + error.message);
   }
 };
 
 connectMongoose();
-
-const Urls = mongoose.model(
-  "Urls",
-  mongoose.Schema({
-    title: String,
-  })
-);
