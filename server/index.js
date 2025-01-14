@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -11,4 +12,26 @@ app.use(express.json());
 app.use("/", router);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+const connectMongoose = async () => {
+  const dbPassword = process.env.PASSWORD;
+  try {
+    await mongoose.connect(
+      `mongodb+srv://shortenerAdmin:${dbPassword}@cluster0.fi5le.mongodb.net/urlshortener?retryWrites=true&w=majority&appName=Cluster0`
+    );
+    console.log("Mongoose called...");
+
+    app.listen(3000, () => console.log("Listening on port 3000..."));
+  } catch (error) {
+    console.log("Failed to connect" + error.message);
+  }
+};
+
+connectMongoose();
+
+const Urls = mongoose.model(
+  "Urls",
+  mongoose.Schema({
+    title: String,
+  })
+);
