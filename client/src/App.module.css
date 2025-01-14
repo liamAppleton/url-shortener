@@ -1,0 +1,83 @@
+body {
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #2d3436;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 500px;
+    min-height: 300px;
+    border: 6px solid  #636e72 ;
+    border-radius: 15px;
+    padding: 40px;
+    background: linear-gradient(135deg, #8e7cc3, #6b5ca4);
+}
+
+/* Shared Button Styles */
+button {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    outline: none;
+  }
+  
+  /* Copy Button */
+  .copy-btn {
+    background-color: #6b5ca4; /* Muted purple */
+    color: #fff;
+    outline: none;
+    
+  }
+  
+  .copy-btn:hover {
+    background-color: #8e7cc3; /* Softer purple */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Submit Button */
+  .submit-btn {
+    background-color: #4caf50; /* Green for success */
+    color: #fff;
+  }
+  
+  .submit-btn:hover {
+    background-color: #66bb6a; /* Lighter green */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    border: 2px solid #8e7cc3; /* Subtle muted purple border */
+    border-radius: 6px;
+    background: linear-gradient(145deg, #4b4b5e, #5a5a72); /* Slight gradient for the bar */
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: all 0.3s ease-in-out;
+    outline: none;
+  }
+  
+  input::placeholder {
+    color: #c5c5d5; /* Muted light gray for placeholder text */
+  }
+  
+  input:focus {
+    border-color: #a39ad9; /* Brighter purple on focus */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    background: linear-gradient(145deg, #53536a, #62627c); /* Slightly lighter gradient */
+  }
