@@ -2,13 +2,14 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-const { urlGenerator } = require("./utils");
+const { keyGenerator } = require("./utils");
 
 const Urls = mongoose.model(
   "Urls",
   mongoose.Schema({
     link: { type: String, required: true },
     shortUrl: String,
+    key: String,
   })
 );
 
@@ -29,21 +30,37 @@ router.post("/", async (req, res) => {
 
     // if url does not exist, it is added to DB with a new key
     if (!exisitingUrl) {
-      const shortenedUrl = urlGenerator();
+      const key = keyGenerator();
+      const shortenedUrl = "shortylinks.io/" + key;
       exisitingUrl = new Urls({
         ...exisitingUrl,
         link: req.body.link,
         shortUrl: shortenedUrl,
+        key: key,
       });
 
       exisitingUrl = await exisitingUrl.save();
-      return res.send(exisitingUrl);
+      return res.send("https://" + exisitingUrl.shortUrl);
     } else {
-      return res.send(exisitingUrl.shortUrl);
+      return res.send("https://" + exisitingUrl.shortUrl);
     }
   } catch (error) {
     // update this block to account for invalid URLS etc...
     res.status(404).send(error.message);
+  }
+});
+
+router.get("/:shorty", async (req, res) => {
+  try {
+    const url = await Urls.findOne({ key: req.params.shorty });
+
+    if (!url) {
+      return res.status(404).send("URL not found");
+    }
+
+    return res.redirect(url.link);
+  } catch (error) {
+    res.status(500).send("Server error");
   }
 });
 
