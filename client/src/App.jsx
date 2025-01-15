@@ -6,14 +6,7 @@ const App = () => {
   const [backendData, setData] = useState();
   const [link, setLink] = useState("");
   const inputRef = useRef(null);
-
-  // placeholder, needs amending to pass correct data
-  // useEffect(() => {
-  //   fetch(`http://localhost:3000/api/${_id}`)
-  //     .then((response) => response.json())
-  //     .then((response) => setData(response))
-  //     .catch((error) => console.log("Error", error));
-  // }, []);
+  const shortUrlRef = useRef(null);
 
   useEffect(() => {
     const newLink = { link: link };
@@ -24,6 +17,7 @@ const App = () => {
         console.log("Reponse pulled successfully...");
         console.log(response.data);
         setData(response.data);
+        shortUrlRef.current.value = response.data.shortUrl;
       })
       .catch((error) => console.log(error.message));
   }, [link]);
@@ -43,6 +37,7 @@ const App = () => {
             <button type="submit" className={styles["submit-btn"]}>
               Shorten URL
             </button>
+            <input type="text" ref={shortUrlRef} />
           </form>
         </div>
         <button className={styles["copy-btn"]}>copy</button>
