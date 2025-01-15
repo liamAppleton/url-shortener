@@ -19,17 +19,26 @@ body {
     background: linear-gradient(135deg, #8e7cc3, #6b5ca4);
 }
 
+.urlContainer {
+  margin-bottom: 10px;
+}
+
+
+
 /* Shared Button Styles */
 button {
     font-family: 'Arial', sans-serif;
     font-size: 16px;
+    height: 40px;
+
     padding: 10px 20px;
     border-radius: 6px;
     border: none;
+    margin-top: 10px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-transform: uppercase;
-    outline: none;
+    outline: none !important;
   }
   
   /* Copy Button */
@@ -37,7 +46,7 @@ button {
     background-color: #6b5ca4; /* Muted purple */
     color: #fff;
     outline: none;
-    
+    max-width: 130px;
   }
   
   .copy-btn:hover {
@@ -49,6 +58,8 @@ button {
   .submit-btn {
     background-color: #4caf50; /* Green for success */
     color: #fff;
+    
+
   }
   
   .submit-btn:hover {

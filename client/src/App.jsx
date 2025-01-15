@@ -5,6 +5,8 @@ import axios from "axios";
 const App = () => {
   const [backendData, setData] = useState();
   const [link, setLink] = useState("");
+  const [copyClicked, setClicked] = useState(false);
+  const [error, setError] = useState("");
   const inputRef = useRef(null);
   const shortUrlRef = useRef(null);
 
@@ -17,14 +19,26 @@ const App = () => {
         console.log("Reponse pulled successfully...");
         console.log(response.data);
         setData(response.data);
-        shortUrlRef.current.value = response.data.shortUrl;
+        shortUrlRef.current.value = response.data;
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        inputRef.current.value = "";
+        console.log(error.message);
+        setError(error.message);
+        setTimeout(() => setError(""), 2000);
+      });
   }, [link]);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(backendData);
+    shortUrlRef.current.value = "";
+    inputRef.current.value = "";
+    setClicked(true);
+    setTimeout(() => setClicked(false), 2000);
+  };
 
   return (
     <>
-      {backendData && <p key={backendData._id}>{backendData.shortUrl}</p>}
       <div className={styles.container}>
         <div>
           <form
@@ -33,14 +47,21 @@ const App = () => {
               setLink(inputRef.current.value);
             }}
           >
-            <input type="text" ref={inputRef} />
-            <button type="submit" className={styles["submit-btn"]}>
-              Shorten URL
-            </button>
-            <input type="text" ref={shortUrlRef} />
+            <div className={styles.urlContainer}>
+              <input type="text" ref={inputRef} />
+              <button type="submit" className={styles["submit-btn"]}>
+                Shorten URL
+              </button>
+              {error && <p>Please enter a valid url</p>}
+            </div>
           </form>
+          <div className={styles.copyContainer}>
+            <input type="text" ref={shortUrlRef} />
+            <button className={styles["copy-btn"]} onClick={handleCopy}>
+              {copyClicked ? "✅ copied" : "copy"}
+            </button>
+          </div>
         </div>
-        <button className={styles["copy-btn"]}>copy</button>
       </div>
     </>
   );
