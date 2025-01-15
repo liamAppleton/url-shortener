@@ -18,11 +18,11 @@ router.get("/", async (req, res) => {
   res.send(urls);
 });
 
-router.get("/:id", async (req, res) => {
-  const url = await Urls.findById(req.params.id);
+// router.get("/:key", async (req, res) => {
+//   const url = await Urls.findOne({ key: req.params.key });
 
-  res.send(url);
-});
+//   res.send(url);
+// });
 
 router.post("/", async (req, res) => {
   try {
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
     // if url does not exist, it is added to DB with a new key
     if (!exisitingUrl) {
       const key = keyGenerator();
-      const shortenedUrl = "shortylinks.io/" + key;
+      const shortenedUrl = "http://localhost:3000/api/" + key;
       exisitingUrl = new Urls({
         ...exisitingUrl,
         link: req.body.link,
@@ -40,9 +40,9 @@ router.post("/", async (req, res) => {
       });
 
       exisitingUrl = await exisitingUrl.save();
-      return res.send("https://" + exisitingUrl.shortUrl);
+      return res.send(exisitingUrl.shortUrl);
     } else {
-      return res.send("https://" + exisitingUrl.shortUrl);
+      return res.send(exisitingUrl.shortUrl);
     }
   } catch (error) {
     // update this block to account for invalid URLS etc...
@@ -50,18 +50,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:shorty", async (req, res) => {
-  try {
-    const url = await Urls.findOne({ key: req.params.shorty });
+router.get("/:key", async (req, res) => {
+  const url = await Urls.findOne({ key: req.params.key });
 
-    if (!url) {
-      return res.status(404).send("URL not found");
-    }
-
-    return res.redirect(url.link);
-  } catch (error) {
-    res.status(500).send("Server error");
-  }
+  res.redirect(url.link);
 });
 
 module.exports = router;
