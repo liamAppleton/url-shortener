@@ -8,4 +8,6 @@ const randomKeyGenerator = () => {
   return key.join("");
 };
 
-module.exports.randomKeyGenerator = randomKeyGenerator;
+module.exports = {
+  randomKeyGenerator,
+};
